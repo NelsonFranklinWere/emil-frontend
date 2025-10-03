@@ -16,19 +16,19 @@ export default function Home() {
   // Testimonials data
   const testimonials = [
     {
-      name: "Sarah Chen",
+      name: "James Mwangi",
       role: "HR Director, TechCorp",
       content: "Emil AI reduced our hiring time by 70%. We went from 3 weeks to 5 days average hiring cycle.",
       avatar: "👩‍💼"
     },
     {
-      name: "Michael Rodriguez",
-      role: "Talent Acquisition, StartupXYZ",
+      name: "Michael Musando",
+      role: "Talent Acquisition, Startup TechPlus",
       content: "The AI screening is incredibly accurate. We're seeing 90% better candidate matches than manual screening.",
       avatar: "👨‍💼"
     },
     {
-      name: "Emily Johnson",
+      name: "Emily Irungu",
       role: "Recruitment Manager, GrowthInc",
       content: "Automated scheduling and reports saved our team 20+ hours per week. Game changer for busy HR teams.",
       avatar: "👩‍🎓"
@@ -65,8 +65,8 @@ export default function Home() {
 
   // Company logos (placeholder)
   const companies = [
-    { name: "TechCorp", logo: "🚀" },
-    { name: "StartupXYZ", logo: "💡" },
+    { name: "TechCorp", logo: "tC" },
+    { name: "Startup TechPlus", logo: "💡" },
     { name: "GrowthInc", logo: "📈" },
     { name: "InnovateLabs", logo: "🔬" },
     { name: "ScaleFast", logo: "⚡" }
@@ -129,7 +129,7 @@ export default function Home() {
           {/* Trust Badge */}
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-8">
             <span className="text-white/90 text-sm font-medium">
-              🚀 Trusted by 500+ companies worldwide
+               Trusted by 20+ companies in Kenya
             </span>
           </div>
 
@@ -195,10 +195,10 @@ export default function Home() {
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
             {[
-              { number: '500+', label: 'Companies' },
-              { number: '50K+', label: 'Candidates Hired' },
-              { number: '70%', label: 'Faster Hiring' },
-              { number: '4.9/5', label: 'Rating' }
+              { number: '20+', label: 'Companies' },
+              { number: '500+', label: 'Candidates Hired' },
+              { number: '85%', label: 'Faster Hiring' },
+              { number: '4.7/5', label: 'Rating' }
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-2xl md:text-3xl font-bold text-white">{stat.number}</div>
@@ -243,8 +243,7 @@ export default function Home() {
                 { name: "Google Gemini", icon: "🔮" },
                 { name: "HuggingFace", icon: "🤗" },
                 { name: "Google Calendar", icon: "📅" },
-                { name: "Gmail API", icon: "📧" },
-                { name: "WhatsApp", icon: "💬" }
+                { name: "Gmail API", icon: "📧" }
               ].map((tech, index) => (
                 <div key={index} className="flex items-center space-x-2 bg-gray-100 px-4 py-2 rounded-lg">
                   <span className="text-xl">{tech.icon}</span>
@@ -303,8 +302,8 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Free Plan */}
             <div className="card text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Free Plan</h3>
-              <div className="text-4xl font-bold text-gray-900 mb-4">$0<span className="text-lg text-gray-600">/month</span></div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Starter Plan</h3>
+              <div className="text-4xl font-bold text-gray-900 mb-4">$20<span className="text-lg text-gray-600">/month</span></div>
               <p className="text-gray-600 mb-6">Perfect for small teams getting started</p>
               
               <div className="space-y-4 mb-8 text-left">
@@ -318,7 +317,7 @@ export default function Home() {
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
-                  <span>Up to 20 Applicants</span>
+                  <span>Up to 500 Applicants</span>
                 </div>
                 <div className="flex items-center">
                   <svg className="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,7 +344,7 @@ export default function Home() {
                 MOST POPULAR
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">Pro Plan</h3>
-              <div className="text-4xl font-bold text-gray-900 mb-4">$99<span className="text-lg text-gray-600">/month</span></div>
+              <div className="text-4xl font-bold text-gray-900 mb-4">$85<span className="text-lg text-gray-600">/month</span></div>
               <p className="text-gray-600 mb-6">Pay-as-you-go for growing businesses</p>
               
               <div className="space-y-4 mb-8 text-left">
@@ -439,30 +438,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact/Demo Section */}
-      <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-            Ready to Transform Your Hiring?
-          </h2>
-          <p className="text-xl text-white/80 mb-8">
-            See how Emil AI can revolutionize your recruitment process. Book a personalized demo today.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-4 rounded-lg shadow transition-all duration-200 transform hover:scale-105 text-lg">
-              📅 Book a Demo
-            </button>
-            <button className="bg-white hover:bg-gray-100 text-gray-900 font-bold px-8 py-4 rounded-lg shadow transition-all duration-200 text-lg">
-              💬 Chat with Sales
-            </button>
-          </div>
-          
-          <p className="text-white/60 text-sm">
-            Or start instantly with our <Link href="/create-job" className="text-yellow-400 hover:text-yellow-300 underline">free trial</Link>
-          </p>
-        </div>
-      </section>
+     {/* Contact/Demo Section */}
+<section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900">
+  <div className="max-w-4xl mx-auto text-center">
+    <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+      Ready to Transform Your Hiring?
+    </h2>
+    <p className="text-xl text-white/80 mb-8">
+      See how Emil AI can revolutionize your recruitment process. Book a personalized demo today.
+    </p>
+    
+    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+      <Link 
+        href="/dashboard"
+        className="bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-8 py-4 rounded-lg shadow transition-all duration-200 transform hover:scale-105 text-lg inline-block text-center"
+      >
+        📅 Book a Demo
+      </Link>
+      <Link 
+        href="/contact-sales"
+        className="bg-white hover:bg-gray-100 text-gray-900 font-bold px-8 py-4 rounded-lg shadow transition-all duration-200 text-lg inline-block text-center"
+      >
+        💬 Chat with Sales
+      </Link>
+    </div>
+    
+    <p className="text-white/60 text-sm">
+      Or start instantly with our <Link href="/create-job" className="text-yellow-400 hover:text-yellow-300 underline">free trial</Link>
+    </p>
+  </div>
+</section>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
@@ -479,16 +484,16 @@ export default function Home() {
                 AI-powered recruitment platform for modern businesses.
               </p>
               <div className="flex space-x-4">
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
+                <a href="https://www.linkedin.com/in/stivego-company-729746386/" className="text-gray-400 hover:text-white transition-colors">
                   <span className="sr-only">LinkedIn</span>
                   💼
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  <span className="sr-only">Twitter</span>
+                <a href="https://www.tiktok.com/@strivego" className="text-gray-400 hover:text-white transition-colors">
+                  <span className="sr-only">T</span>
                   🐦
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  <span className="sr-only">GitHub</span>
+                <a href="https://www.facebook.com/profile.php?id=61581393475109" className="text-gray-400 hover:text-white transition-colors">
+                  <span className="sr-only">Facebook</span>
                   💻
                 </a>
               </div>
