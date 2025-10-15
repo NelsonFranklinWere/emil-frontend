@@ -1,24 +1,26 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { createJob } from '../lib/api';
 
 const initialState = {
-  companyName: '',
-  jobTitle: '',
-  jobDescription: '',
+  company_name: '',
+  job_title: '',
+  job_description: '',
   requirements: '',
-  applicationMode: 'link',
-  hrEmail: '',
-  reportEmails: '',
-  applicationDeadline: '',
-  interviewTime: '',
-  interviewLink: ''
+  application_mode: 'link',
+  application_email: '',
+  report_emails: '',
+  deadline: '',
+  interview_time: '',
+  interview_link: ''
 };
 
 export default function CreateJob() {
   const router = useRouter();
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,24 +30,35 @@ export default function CreateJob() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    
+    setErrorMsg('');
+
     try {
-      const response = await fetch('/api/job/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(form),
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        router.push(`/confirmation?jobId=${data.jobId}&applicationUrl=${data.applicationUrl}&mode=${form.applicationMode}&emails=${form.reportEmails}`);
-      } else {
-        alert('Error creating job posting');
-      }
+      // Map frontend form to backend JobDTO fields
+      const payload = {
+        companyName: form.company_name,
+        title: form.job_title,
+        description: form.job_description,
+        requirements: form.requirements,
+        applicationMode: form.application_mode, // 'email' | 'link'
+        applicationEmail: form.application_email,
+        reportEmails: form.report_emails
+          .split(',')
+          .map(e => e.trim())
+          .filter(Boolean),
+        // Many Spring backends expect LocalDate (YYYY-MM-DD) and LocalDateTime (YYYY-MM-DDTHH:mm)
+        deadline: form.deadline,
+        interviewTime: form.interview_time || null,
+        interviewLink: form.interview_link || null,
+      };
+
+      const data = await createJob(payload);
+      const jobId = data.id || data.jobId || data.job_id;
+      const applicationUrl = data.applicationUrl || data.application_url || '';
+      router.push(`/confirmation?jobId=${encodeURIComponent(jobId || '')}&applicationUrl=${encodeURIComponent(applicationUrl)}&mode=${encodeURIComponent(form.application_mode)}&emails=${encodeURIComponent(form.report_emails)}`);
     } catch (error) {
-      alert('Error creating job posting');
+      console.error(error);
+      const backendMessage = error?.data?.message || error?.data?.error || error?.message;
+      setErrorMsg(backendMessage || 'Network or server error');
     } finally {
       setLoading(false);
     }
@@ -72,16 +85,20 @@ export default function CreateJob() {
 
         {/* Form Card */}
         <div className="card">
+          {errorMsg && (
+            <div className="mb-4 p-3 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm">
+              {errorMsg}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
+
             {/* Company Name */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Company Name *
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Company Name *</label>
               <input
                 type="text"
-                name="companyName"
-                value={form.companyName}
+                name="company_name"
+                value={form.company_name}
                 onChange={handleChange}
                 required
                 className="form-input"
@@ -91,13 +108,11 @@ export default function CreateJob() {
 
             {/* Job Title */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Job Title *
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Job Title *</label>
               <input
                 type="text"
-                name="jobTitle"
-                value={form.jobTitle}
+                name="job_title"
+                value={form.job_title}
                 onChange={handleChange}
                 required
                 className="form-input"
@@ -107,12 +122,10 @@ export default function CreateJob() {
 
             {/* Job Description */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Job Description *
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Job Description *</label>
               <textarea
-                name="jobDescription"
-                value={form.jobDescription}
+                name="job_description"
+                value={form.job_description}
                 onChange={handleChange}
                 required
                 rows={6}
@@ -123,31 +136,23 @@ export default function CreateJob() {
 
             {/* Requirements */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Requirements & Skills
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Requirements & Skills</label>
               <textarea
                 name="requirements"
                 value={form.requirements}
                 onChange={handleChange}
                 rows={4}
                 className="form-input font-mono text-sm"
-                placeholder="List required skills and experience...
-• 3+ years in JavaScript
-• Experience with React/Next.js
-• Bachelor's degree in CS or related
-• Strong communication skills"
+                placeholder="List required skills and experience..."
               />
             </div>
 
             {/* Application Mode */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Application Mode *
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Application Mode *</label>
               <select
-                name="applicationMode"
-                value={form.applicationMode}
+                name="application_mode"
+                value={form.application_mode}
                 onChange={handleChange}
                 className="form-input"
               >
@@ -158,13 +163,11 @@ export default function CreateJob() {
 
             {/* HR Email */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                HR Contact Email *
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">HR Contact Email *</label>
               <input
                 type="email"
-                name="hrEmail"
-                value={form.hrEmail}
+                name="application_email"
+                value={form.application_email}
                 onChange={handleChange}
                 required
                 className="form-input"
@@ -174,13 +177,11 @@ export default function CreateJob() {
 
             {/* Report Emails */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Report Emails *
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Report Emails *</label>
               <input
                 type="text"
-                name="reportEmails"
-                value={form.reportEmails}
+                name="report_emails"
+                value={form.report_emails}
                 onChange={handleChange}
                 required
                 className="form-input"
@@ -191,42 +192,36 @@ export default function CreateJob() {
 
             {/* Application Deadline */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Application Deadline *
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Application Deadline *</label>
               <input
                 type="date"
-                name="applicationDeadline"
-                value={form.applicationDeadline}
+                name="deadline"
+                value={form.deadline}
                 onChange={handleChange}
                 required
                 className="form-input"
               />
             </div>
 
-            {/* Interview Time (Optional) */}
+            {/* Interview Time */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Preferred Interview Time (Optional)
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Preferred Interview Time (Optional)</label>
               <input
                 type="datetime-local"
-                name="interviewTime"
-                value={form.interviewTime}
+                name="interview_time"
+                value={form.interview_time}
                 onChange={handleChange}
                 className="form-input"
               />
             </div>
 
-            {/* Interview Link (Optional) */}
+            {/* Interview Link */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Interview Link (Optional)
-              </label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Interview Link (Optional)</label>
               <input
                 type="url"
-                name="interviewLink"
-                value={form.interviewLink}
+                name="interview_link"
+                value={form.interview_link}
                 onChange={handleChange}
                 className="form-input"
                 placeholder="https://meet.google.com/your-meeting"
@@ -249,21 +244,6 @@ export default function CreateJob() {
               )}
             </button>
           </form>
-
-          {/* Security Note */}
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <div className="flex items-start space-x-3">
-              <div className="flex-shrink-0 w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center mt-0.5">
-                <span className="text-xs font-bold text-white">🔒</span>
-              </div>
-              <div>
-                <p className="text-blue-800 font-medium">Your data is secure</p>
-                <p className="text-blue-700 text-sm mt-1">
-                  All applicant data is encrypted and processed securely. We comply with global data protection standards.
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

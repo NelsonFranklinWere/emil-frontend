@@ -1,35 +1,43 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getPublicJobs } from '../lib/api';
 
-// Mock data - replace with actual API calls
-const mockJobs = [
-  {
-    id: 1,
-    title: 'Senior Frontend Developer',
-    company: 'TechCorp Inc',
-    applicants: 24,
-    deadline: '2024-02-15',
-    status: 'Active',
-    shortlisted: 8,
-    flagged: 3,
-    rejected: 13
-  },
-  {
-    id: 2,
-    title: 'Product Manager',
-    company: 'StartupXYZ',
-    applicants: 15,
-    deadline: '2024-02-10',
-    status: 'Closed',
-    shortlisted: 5,
-    flagged: 2,
-    rejected: 8
-  }
-];
+// Simple placeholder mapping in case backend fields differ
+const mapJob = (j) => ({
+  id: j.id || j.jobId || j.job_id,
+  title: j.title || j.jobTitle,
+  company: j.company || j.companyName,
+  applicants: j.applicants || j.applicantCount || 0,
+  deadline: j.deadline || j.closingDate || '',
+  status: j.status || (j.active ? 'Active' : 'Closed'),
+  shortlisted: j.shortlisted || 0,
+  flagged: j.flagged || 0,
+  rejected: j.rejected || 0,
+});
 
 export default function Dashboard() {
   const [selectedJob, setSelectedJob] = useState(null);
   const [showReport, setShowReport] = useState(false);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const data = await getPublicJobs();
+        const list = Array.isArray(data) ? data : (data?.content || data?.items || []);
+        if (mounted) setJobs(list.map(mapJob));
+      } catch (err) {
+        if (mounted) setError('Failed to load jobs');
+        console.error(err);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
 
   const viewReport = (job) => {
     setSelectedJob(job);
@@ -94,7 +102,7 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {mockJobs.map((job) => (
+                {jobs.map((job) => (
                   <tr key={job.id} className="border-b border-gray-100 hover:bg-gray-50">
                     <td className="py-4">
                       <div>
@@ -130,13 +138,19 @@ export default function Dashboard() {
             </table>
           </div>
 
-          {mockJobs.length === 0 && (
+          {!loading && jobs.length === 0 && (
             <div className="text-center py-12">
               <div className="text-gray-400 mb-4">No job postings yet</div>
               <Link href="/create-job" className="btn-primary">
                 Create Your First Job
               </Link>
             </div>
+          )}
+          {loading && (
+            <div className="text-center py-12 text-gray-500">Loading jobs...</div>
+          )}
+          {error && (
+            <div className="text-center py-12 text-red-600">{error}</div>
           )}
         </div>
       </div>

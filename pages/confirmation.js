@@ -5,6 +5,7 @@ import { useState } from 'react';
 export default function Confirmation() {
   const router = useRouter();
   const { jobId, applicationUrl, mode, emails } = router.query;
+  const resolvedMode = (mode === 'email' || mode === 'link') ? mode : 'link';
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = async () => {
@@ -36,7 +37,7 @@ export default function Confirmation() {
           </p>
 
           {/* Application Link Section */}
-          {mode === 'link' && applicationUrl && (
+          {resolvedMode === 'link' && applicationUrl && (
             <div className="mb-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
               <h3 className="font-heading font-bold text-gray-900 mb-3">Application Link</h3>
               <div className="flex flex-col sm:flex-row gap-2 mb-4">
@@ -60,7 +61,7 @@ export default function Confirmation() {
           )}
 
           {/* Email Mode Message */}
-          {mode === 'email' && (
+          {resolvedMode === 'email' && (
             <div className="mb-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
               <h3 className="font-heading font-bold text-blue-900 mb-2">Email Mode Activated</h3>
               <p className="text-blue-700">
