@@ -8,6 +8,9 @@ export default function Confirmation() {
   const resolvedMode = (mode === 'email' || mode === 'link') ? mode : 'link';
   const [copied, setCopied] = useState(false);
 
+  // Debug logging
+  console.log('Confirmation page params:', { jobId, applicationUrl, mode, emails, resolvedMode });
+
   const copyToClipboard = async () => {
     if (applicationUrl) {
       await navigator.clipboard.writeText(applicationUrl);
@@ -36,36 +39,47 @@ export default function Confirmation() {
             Your job posting is now live and ready to receive applications.
           </p>
 
-          {/* Application Link Section */}
-          {resolvedMode === 'link' && applicationUrl && (
+          {/* Application Link - Only for Link Mode */}
+          {resolvedMode === 'link' && (
             <div className="mb-8 p-6 bg-gray-50 rounded-xl border border-gray-200">
               <h3 className="font-heading font-bold text-gray-900 mb-3">Application Link</h3>
-              <div className="flex flex-col sm:flex-row gap-2 mb-4">
-                <input
-                  type="text"
-                  readOnly
-                  value={applicationUrl}
-                  className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm"
-                />
-                <button
-                  onClick={copyToClipboard}
-                  className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-lg transition-colors whitespace-nowrap"
-                >
-                  {copied ? 'Copied!' : 'Copy Link'}
-                </button>
-              </div>
-              <p className="text-sm text-gray-600">
-                Share this link with applicants. It will automatically expire after the deadline.
-              </p>
+              {applicationUrl ? (
+                <>
+                  <div className="flex flex-col sm:flex-row gap-2 mb-4">
+                    <input
+                      type="text"
+                      readOnly
+                      value={applicationUrl}
+                      className="flex-1 px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm"
+                    />
+                    <button
+                      onClick={copyToClipboard}
+                      className="px-6 py-3 bg-yellow-400 hover:bg-yellow-500 text-black font-bold rounded-lg transition-colors whitespace-nowrap"
+                    >
+                      {copied ? 'Copied!' : 'Copy Link'}
+                    </button>
+                  </div>
+                  <p className="text-sm text-gray-600">
+                    Share this link with applicants. Our webhook system will automatically process and filter applications submitted through this link.
+                  </p>
+                </>
+              ) : (
+                <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <p className="text-yellow-800 text-sm">
+                    Application link is being generated. Please refresh the page in a moment or check your dashboard.
+                  </p>
+                </div>
+              )}
             </div>
           )}
 
-          {/* Email Mode Message */}
+          {/* Email Mode Information */}
           {resolvedMode === 'email' && (
             <div className="mb-8 p-6 bg-blue-50 rounded-xl border border-blue-200">
               <h3 className="font-heading font-bold text-blue-900 mb-2">Email Mode Activated</h3>
               <p className="text-blue-700">
-                Applicants will send their resumes directly to your company email address.
+                Applicants will send their resumes directly to your company email address. 
+                No webhook link is generated as applications will be handled via email.
               </p>
             </div>
           )}

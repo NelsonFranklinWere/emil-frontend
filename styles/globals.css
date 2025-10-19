@@ -2,39 +2,288 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 /* Custom styles */
 .btn-primary {
-  @apply bg-yellow-400 hover:bg-yellow-500 text-black font-bold px-6 py-3 rounded-lg shadow transition-all duration-200 transform hover:scale-105;
+  @apply bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-yellow-400/25 transition-all duration-300 transform hover:scale-105;
 }
 
 .btn-secondary {
-  @apply bg-white hover:bg-gray-100 text-gray-900 border border-gray-300 font-bold px-6 py-3 rounded-lg shadow transition-all duration-200;
+  @apply bg-white/10 backdrop-blur-xl hover:bg-white/20 text-white border border-white/30 font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-white/10 transition-all duration-300;
 }
 
 .card {
-  @apply bg-white p-8 rounded-2xl shadow-lg border border-gray-100;
+  @apply bg-white/80 backdrop-blur-xl p-8 rounded-3xl shadow-xl border border-white/20 transition-all duration-500 hover:shadow-2xl;
 }
 
 .form-input {
-  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors;
+  @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-colors bg-white/80 backdrop-blur-sm;
 }
 
-/* Custom scrollbar */
+/* 2025 Design Enhancements */
+.glass-effect {
+  @apply bg-white/10 backdrop-blur-xl border border-white/20;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent;
+}
+
+.neural-network {
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+}
+
+/* Custom scrollbar - 2025 style */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
+  background: linear-gradient(45deg, #fbbf24, #f59e0b);
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a1a1a1;
+  background: linear-gradient(45deg, #f59e0b, #d97706);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.6); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background: rgba(251, 191, 36, 0.3);
+  color: #1f2937;
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes neural-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+@keyframes data-flow {
+  0% { transform: translateX(-100%); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+@keyframes ai-thinking {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(5deg) scale(1.1); }
+  75% { transform: rotate(-5deg) scale(1.1); }
+}
+
+@keyframes hologram {
+  0%, 100% { opacity: 0.8; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-5px); }
+}
+
+@keyframes quantum-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(147, 51, 234, 0.2); }
+  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6), 0 0 80px rgba(147, 51, 234, 0.4); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-neural-pulse {
+  animation: neural-pulse 3s ease-in-out infinite;
+}
+
+.animate-data-flow {
+  animation: data-flow 4s linear infinite;
+}
+
+.animate-ai-thinking {
+  animation: ai-thinking 2s ease-in-out infinite;
+}
+
+.animate-hologram {
+  animation: hologram 3s ease-in-out infinite;
+}
+
+.animate-quantum-glow {
+  animation: quantum-glow 4s ease-in-out infinite;
+}
+
+/* Advanced Glassmorphism */
+.glass-advanced {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+}
+
+.glass-dark {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* Neural Network Effects */
+.neural-connection {
+  position: relative;
+  overflow: hidden;
+}
+
+.neural-connection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.4), transparent);
+  animation: data-flow 3s linear infinite;
+}
+
+/* AI Thinking Indicator */
+.ai-thinking {
+  position: relative;
+}
+
+.ai-thinking::after {
+  content: '🤖';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  animation: ai-thinking 2s ease-in-out infinite;
+}
+
+/* Holographic Text Effect */
+.holographic {
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Quantum Particle Effect */
+.quantum-particles {
+  position: relative;
+  overflow: hidden;
+}
+
+.quantum-particles::before,
+.quantum-particles::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.8), transparent);
+  border-radius: 50%;
+  animation: quantum-glow 2s ease-in-out infinite;
+}
+
+.quantum-particles::before {
+  top: 20%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.quantum-particles::after {
+  top: 60%;
+  right: 20%;
+  animation-delay: 1s;
+}
+
+/* Smart Hover Effects */
+.smart-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.smart-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Data Visualization Bars */
+.data-bar {
+  position: relative;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.data-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+  border-radius: 2px;
+  animation: data-flow 2s ease-in-out infinite;
+}
+
+/* Responsive Design Enhancements */
+@media (max-width: 768px) {
+  .neural-connection::before {
+    animation-duration: 2s;
+  }
+  
+  .quantum-particles::before,
+  .quantum-particles::after {
+    width: 2px;
+    height: 2px;
+  }
 }
