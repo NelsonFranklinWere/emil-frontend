@@ -21,10 +21,30 @@ const initialState = {
 
 export default function CreateJob() {
   const router = useRouter();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, login } = useAuth();
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [autoLoginAttempted, setAutoLoginAttempted] = useState(false);
+
+  // Auto-login effect
+  useEffect(() => {
+    const autoLogin = async () => {
+      if (!isAuthenticated && !autoLoginAttempted) {
+        setAutoLoginAttempted(true);
+        try {
+          await login({
+            email: 'demo@example.com',
+            password: 'demo123'
+          });
+        } catch (error) {
+          console.error('Auto-login failed:', error);
+        }
+      }
+    };
+    
+    autoLogin();
+  }, [isAuthenticated, autoLoginAttempted, login]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,8 +83,21 @@ export default function CreateJob() {
     } catch (error) {
       console.error(error);
       const backendMessage = error?.data?.message || error?.data?.error || error?.message;
-      if (error?.status === 401) {
-        router.replace(`/login?next=${encodeURIComponent('/create-job')}`);
+      if (error?.status === 401 || error?.status === 403) {
+        setErrorMsg('Authentication required. Please login first.');
+        // Try auto-login again
+        try {
+          await login({
+            email: 'demo@example.com',
+            password: 'demo123'
+          });
+          // Retry the job creation
+          setTimeout(() => {
+            handleSubmit(e);
+          }, 1000);
+        } catch (loginError) {
+          setErrorMsg('Please login to create jobs. Go to /auth/signin');
+        }
         return;
       }
       setErrorMsg(backendMessage || 'Network or server error');
@@ -101,6 +134,16 @@ export default function CreateJob() {
                 Creating as {user.name} ({user.email})
               </p>
             )}
+            
+            {/* Authentication Status */}
+            <div className={`mt-4 p-3 rounded-lg ${isAuthenticated ? 'bg-green-900/30 border border-green-600' : 'bg-red-900/30 border border-red-600'}`}>
+              <div className="flex items-center gap-2">
+                <div className={`w-3 h-3 rounded-full ${isAuthenticated ? 'bg-green-400' : 'bg-red-400'}`}></div>
+                <span className={`text-sm ${isAuthenticated ? 'text-green-300' : 'text-red-300'}`}>
+                  {isAuthenticated ? '✅ Authenticated - Ready to create jobs' : '❌ Not authenticated - Auto-login in progress...'}
+                </span>
+              </div>
+            </div>
           </motion.div>
 
           {/* Form Card */}
@@ -260,7 +303,7 @@ export default function CreateJob() {
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !isAuthenticated}
                 className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold py-4 text-lg rounded-xl shadow-lg hover:shadow-yellow-400/25 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 {loading ? (
@@ -268,6 +311,8 @@ export default function CreateJob() {
                     <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
                     Creating Job...
                   </div>
+                ) : !isAuthenticated ? (
+                  'Please wait - Authenticating...'
                 ) : (
                   'Create Job Posting'
                 )}

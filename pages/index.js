@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRocket, faPlay, faUsers, faClipboardList, faBullseye, faBrain } from '@fortawesome/free-solid-svg-icons'
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -128,25 +131,25 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  // Testimonials data
+  // Testimonials data (using realistic avatars)
   const testimonials = [
     {
       name: "James Mwangi",
       role: "HR Director, TechCorp",
       content: "Emil AI reduced our hiring time by 70%. We went from 3 weeks to 5 days average hiring cycle.",
-      avatar: "👩‍💼"
+      avatarUrl: "https://i.pravatar.cc/160?img=67"
     },
     {
       name: "Michael Musando",
       role: "Talent Acquisition, Startup TechPlus",
       content: "The AI screening is incredibly accurate. We're seeing 90% better candidate matches than manual screening.",
-      avatar: "👨‍💼"
+      avatarUrl: "https://i.pravatar.cc/160?img=35"
     },
     {
       name: "Emily Irungu",
       role: "Recruitment Manager, GrowthInc",
       content: "Automated scheduling and reports saved our team 20+ hours per week. Game changer for busy HR teams.",
-      avatar: "👩‍🎓"
+      avatarUrl: "https://i.pravatar.cc/160?img=12"
     }
   ];
 
@@ -203,54 +206,7 @@ export default function Home() {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-green-400/10 to-blue-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }} />
       </div>
 
-      {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-500 ${
-        scrolled ? 'bg-white/10 backdrop-blur-xl shadow-2xl border-b border-white/20' : 'bg-transparent'
-      }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            {/* Logo */}
-            <div className="flex items-center space-x-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-yellow-400/25 transition-all duration-300 group-hover:scale-110">
-                <span className="text-black font-bold text-xl">E</span>
-              </div>
-              <span className={`text-2xl font-bold bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent ${
-                scrolled ? 'from-gray-900 to-yellow-600' : 'from-white to-yellow-200'
-              }`}>Emil AI</span>
-            </div>
-
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className={`font-medium transition-all duration-300 hover:scale-105 ${
-                scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white/80 hover:text-white'
-              }`}>Features</a>
-              <a href="#pricing" className={`font-medium transition-all duration-300 hover:scale-105 ${
-                scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white/80 hover:text-white'
-              }`}>Pricing</a>
-              <a href="#testimonials" className={`font-medium transition-all duration-300 hover:scale-105 ${
-                scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white/80 hover:text-white'
-              }`}>Testimonials</a>
-              <a href="#contact" className={`font-medium transition-all duration-300 hover:scale-105 ${
-                scrolled ? 'text-gray-700 hover:text-gray-900' : 'text-white/80 hover:text-white'
-              }`}>Contact</a>
-              <Link href="/create-job" className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-8 py-3 rounded-xl shadow-lg hover:shadow-yellow-400/25 transition-all duration-300 transform hover:scale-105">
-                Start Free
-              </Link>
-            </div>
-
-            {/* Mobile menu button */}
-            <div className="md:hidden">
-              <button className={`p-3 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 ${
-                scrolled ? 'text-gray-700' : 'text-white'
-              }`}>
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Navigation moved to global Layout header */}
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative">
@@ -338,46 +294,44 @@ export default function Home() {
               isVisible['cta-buttons'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
-            <Link href="/create-job" className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold px-10 py-5 rounded-xl shadow-2xl hover:shadow-yellow-400/25 transition-all duration-300 transform hover:scale-105 text-lg flex items-center">
-              <span className="mr-2">🚀</span>
+            <Link href="/create-job" className="btn-primary text-lg flex items-center">
+              <FontAwesomeIcon icon={faRocket} className="mr-2" />
               Start Free Trial
             </Link>
             <button className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold px-10 py-5 rounded-xl shadow-2xl hover:shadow-green-400/25 transition-all duration-300 transform hover:scale-105 text-lg flex items-center">
-              <span className="mr-2">🤖</span>
+              <FontAwesomeIcon icon={faBrain} className="mr-2" />
               Try AI Screening Now
             </button>
-            <button className="bg-white/10 backdrop-blur-xl hover:bg-white/20 text-white border border-white/30 font-bold px-10 py-5 rounded-xl shadow-lg hover:shadow-white/10 transition-all duration-300 text-lg flex items-center">
-              <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
+            <button className="btn-secondary text-lg flex items-center">
+              <FontAwesomeIcon icon={faPlay} className="mr-2" />
               See Demo
             </button>
           </div>
 
-          {/* AI-Powered Live Insights */}
+          {/* AI-Powered Live Insights - Horizontal Scrolling */}
           <div 
             id="ai-insights"
             data-animate
-            className={`mb-12 max-w-4xl mx-auto transition-all duration-1000 delay-1000 ${
+            className={`mb-12 max-w-6xl mx-auto transition-all duration-1000 delay-1000 ${
               isVisible['ai-insights'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
           >
-            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10">
+            <div className="bg-white/5 backdrop-blur-xl rounded-2xl p-6 border border-white/10 overflow-hidden">
               <div className="flex items-center justify-center mb-4">
                 <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse mr-3"></div>
                 <span className="text-white/80 text-sm font-medium">AI INSIGHTS LIVE</span>
               </div>
-              <div className="space-y-2">
-                {aiInsights.map((insight, index) => (
-                  <div 
-                    key={insight.id} 
-                    className="text-white/90 text-sm animate-fade-in"
-                    style={{ animationDelay: `${index * 0.2}s` }}
-                  >
-                    🤖 {insight.text}
-                  </div>
-                ))}
+              <div className="relative">
+                <div className="flex animate-scroll-right-to-left">
+                  {[...aiInsights, ...aiInsights, ...aiInsights].map((insight, index) => (
+                    <div 
+                      key={`${insight.id}-${index}`} 
+                      className="text-white/90 text-sm whitespace-nowrap mr-8 flex-shrink-0"
+                    >
+                      🤖 {insight.text}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -395,35 +349,37 @@ export default function Home() {
                 { 
                   label: 'Active Users', 
                   value: liveMetrics.activeUsers, 
-                  icon: '👥', 
+                  icon: faUsers, 
                   color: 'from-blue-500 to-cyan-500',
                   trend: '+12%'
                 },
                 { 
                   label: 'Jobs Posted', 
                   value: liveMetrics.jobsPosted, 
-                  icon: '📝', 
+                  icon: faClipboardList, 
                   color: 'from-green-500 to-emerald-500',
                   trend: '+8%'
                 },
                 { 
                   label: 'Candidates Hired', 
                   value: liveMetrics.candidatesHired, 
-                  icon: '🎯', 
+                  icon: faBullseye, 
                   color: 'from-purple-500 to-pink-500',
                   trend: '+15%'
                 },
                 { 
                   label: 'AI Accuracy', 
                   value: `${liveMetrics.aiAccuracy.toFixed(1)}%`, 
-                  icon: '🧠', 
+                  icon: faBrain, 
                   color: 'from-yellow-500 to-orange-500',
                   trend: '+2.3%'
                 }
               ].map((metric, index) => (
                 <div key={index} className="bg-white/10 backdrop-blur-xl rounded-xl p-4 border border-white/20 hover:border-white/40 transition-all duration-300 group">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">{metric.icon}</span>
+                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">
+                      <FontAwesomeIcon icon={metric.icon} />
+                    </span>
                     <span className="text-green-400 text-xs font-medium">{metric.trend}</span>
                   </div>
                   <div className={`text-2xl font-bold bg-gradient-to-r ${metric.color} bg-clip-text text-transparent`}>
@@ -653,10 +609,10 @@ export default function Home() {
                   {/* Gradient Border Effect */}
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-sm"></div>
                   
-                  {/* Icon with Animation */}
+                  {/* Replaced emoji icons with contextual imagery */}
                   <div className="text-center mb-6">
-                    <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
-                      {feature.icon}
+                    <div className="w-20 h-20 mx-auto rounded-2xl overflow-hidden shadow-lg group-hover:scale-105 transition-transform">
+                      <Image src={`https://picsum.photos/seed/feature-${index}/160/160`} alt={feature.title} width={160} height={160} className="object-cover w-full h-full" />
                     </div>
                   </div>
                   
@@ -715,6 +671,129 @@ export default function Home() {
         </div>
       </section>
 
+      {/* How It Works - AI Pipeline */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">How It Works</h2>
+            <p className="text-white/70 max-w-2xl mx-auto">An AI-first hiring pipeline engineered for signal, speed, and fairness.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            {[
+              { step: '1', title: 'Job Intake', desc: 'Describe your role. AI refines it for clarity and impact.' },
+              { step: '2', title: 'Sourcing', desc: 'Distribute across channels. Track inbound with one link.' },
+              { step: '3', title: 'Screening', desc: 'NLP parses CVs, scores candidates, flags top-tier talent.' },
+              { step: '4', title: 'Scheduling', desc: 'One-click invites, calendar sync, automated reminders.' },
+            ].map((s, i) => (
+              <div key={i} className="glass-advanced rounded-2xl p-6">
+                <div className="text-sm text-white/50 mb-2">Step {s.step}</div>
+                <h3 className="text-white font-semibold text-lg mb-2">{s.title}</h3>
+                <p className="text-white/70 text-sm">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Integrations */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-blue-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">Integrations</h2>
+            <p className="text-gray-600 mt-3">Plug into your existing stack in minutes.</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-center">
+            {['Google Calendar','Gmail','Slack','Notion','Greenhouse','Lever'].map((name, i) => (
+              <div key={i} className="card text-center">
+                <div className="text-gray-800 font-semibold">{name}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Case Studies */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-white">Proven Results</h2>
+            <p className="text-white/70 mt-3">Teams cut hiring time and boost quality without extra headcount.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              { org: 'TechCorp', metric: '70% faster', note: 'time-to-hire', quote: 'We moved from weeks to days.' },
+              { org: 'Startup Plus', metric: '+90% match', note: 'candidate relevancy', quote: 'Precision screening saved us countless hours.' },
+              { org: 'GrowthInc', metric: '20+ hrs', note: 'saved per week', quote: 'Scheduling and reports are fully automated.' },
+            ].map((c, i) => (
+              <div key={i} className="glass-advanced rounded-2xl p-8">
+                <div className="text-3xl font-bold text-white">{c.metric}</div>
+                <div className="text-white/60 mb-4">{c.note}</div>
+                <p className="text-white/80 italic mb-4">“{c.quote}”</p>
+                <div className="text-white/60 text-sm">{c.org}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Security & Compliance */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-50 via-white to-blue-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
+            <div>
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-4">Security & Compliance</h2>
+              <p className="text-gray-600 mb-6">Enterprise-grade security baked in: encryption, access controls, audit trails.</p>
+              <ul className="space-y-3 text-gray-700">
+                <li>• OAuth 2.0 / JWT-based auth</li>
+                <li>• Role-based access control</li>
+                <li>• GDPR-ready data handling</li>
+                <li>• Encrypted storage and transport</li>
+              </ul>
+            </div>
+            <div className="card">
+              <div className="grid grid-cols-2 gap-4 text-center">
+                {[
+                  { label: 'Uptime', value: '99.9%' },
+                  { label: 'SLA', value: 'Enterprise' },
+                  { label: 'EU Data', value: 'Available' },
+                  { label: 'Backups', value: 'Daily' },
+                ].map((k, i) => (
+                  <div key={i}>
+                    <div className="text-2xl font-bold text-gray-900">{k.value}</div>
+                    <div className="text-gray-600 text-sm">{k.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-4xl md:text-5xl font-bold text-white">FAQs</h2>
+            <p className="text-white/70 mt-3">Quick answers to common questions.</p>
+          </div>
+          <div className="space-y-4">
+            {[
+              { q: 'How accurate is the AI screening?', a: 'Our models achieve >90% relevancy in benchmarked roles, improving over time.' },
+              { q: 'Can we customize scoring?', a: 'Yes. Weight skills, experience, and culture-fit signals per role.' },
+              { q: 'Is data secure?', a: 'All data is encrypted in transit and at rest, with strict access controls.' },
+            ].map((f, i) => (
+              <details key={i} className="glass-advanced rounded-xl p-4">
+                <summary className="cursor-pointer text-white font-medium">{f.q}</summary>
+                <p className="text-white/80 mt-2 text-sm">{f.a}</p>
+              </details>
+            ))}
+          </div>
+          <div className="text-center mt-12">
+            <Link href="/create-job" className="btn-primary">Start Your Free Trial</Link>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials Section */}
       <section id="testimonials" className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-blue-900 to-purple-900 relative overflow-hidden">
         {/* Background Elements */}
@@ -760,8 +839,8 @@ export default function Home() {
                   </div>
                   
                   <div className="flex items-center mb-6">
-                    <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center text-3xl mr-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                      {testimonial.avatar}
+                    <div className="w-16 h-16 rounded-2xl overflow-hidden mr-4 shadow-lg">
+                      <Image src={testimonial.avatarUrl} alt={testimonial.name} width={64} height={64} className="object-cover w-full h-full" />
                     </div>
                     <div>
                       <h4 className="font-bold text-white text-lg group-hover:text-yellow-300 transition-colors duration-300">
@@ -1021,136 +1100,7 @@ export default function Home() {
   </div>
 </section>
 
-      {/* Footer */}
-      <footer className="bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white py-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-yellow-400/5 to-orange-500/5 rounded-full blur-2xl"></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto relative">
-          <div 
-            id="footer-content"
-            data-animate
-            className={`transition-all duration-1000 ${
-              isVisible['footer-content'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-          >
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-              {/* Company Info */}
-              <div className="md:col-span-1">
-                <div className="flex items-center space-x-3 mb-6 group">
-                  <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-yellow-400/25 transition-all duration-300 group-hover:scale-110">
-                    <span className="text-black font-bold text-xl">E</span>
-                  </div>
-                  <span className="text-2xl font-bold bg-gradient-to-r from-white to-yellow-200 bg-clip-text text-transparent">
-                    Emil AI
-                  </span>
-                </div>
-                <p className="text-gray-400 mb-6 leading-relaxed">
-                  AI-powered recruitment platform for modern businesses. 
-                  <span className="text-yellow-300 font-semibold">Building the future of hiring</span>.
-                </p>
-                <div className="flex space-x-4">
-                  {[
-                    { href: "https://www.linkedin.com/in/stivego-company-729746386/", icon: "💼", label: "LinkedIn" },
-                    { href: "https://www.tiktok.com/@strivego", icon: "🎵", label: "TikTok" },
-                    { href: "https://www.facebook.com/profile.php?id=61581393475109", icon: "📘", label: "Facebook" }
-                  ].map((social, index) => (
-                    <a 
-                      key={index}
-                      href={social.href} 
-                      className="w-12 h-12 bg-white/10 backdrop-blur-xl rounded-xl flex items-center justify-center text-2xl hover:bg-white/20 hover:scale-110 transition-all duration-300 border border-white/20 hover:border-yellow-400/50"
-                      aria-label={social.label}
-                    >
-                      {social.icon}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Navigation Links */}
-              {[
-                { 
-                  title: 'Product', 
-                  links: [
-                    { name: 'Features', href: '#features' },
-                    { name: 'Pricing', href: '#pricing' },
-                    { name: 'API', href: '#' },
-                    { name: 'Integrations', href: '#' }
-                  ] 
-                },
-                { 
-                  title: 'Company', 
-                  links: [
-                    { name: 'About', href: '#' },
-                    { name: 'Blog', href: '#' },
-                    { name: 'Careers', href: '#' },
-                    { name: 'Contact', href: '#contact' }
-                  ] 
-                },
-                { 
-                  title: 'Support', 
-                  links: [
-                    { name: 'Help Center', href: '#' },
-                    { name: 'Documentation', href: '#' },
-                    { name: 'Status', href: '#' },
-                    { name: 'Community', href: '#' }
-                  ] 
-                }
-              ].map((column, index) => (
-                <div key={index} className="group">
-                  <h4 className="font-bold mb-6 text-lg group-hover:text-yellow-300 transition-colors duration-300">
-                    {column.title}
-                  </h4>
-                  <ul className="space-y-3">
-                    {column.links.map((link, idx) => (
-                      <li key={idx}>
-                        <a 
-                          href={link.href} 
-                          className="text-gray-400 hover:text-white transition-all duration-300 hover:translate-x-1 inline-block group-hover:text-yellow-300"
-                        >
-                          {link.name}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            
-            {/* Bottom Section */}
-            <div className="border-t border-white/10 mt-12 pt-8">
-              <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                <div className="text-center md:text-left">
-                  <p className="text-gray-400 mb-2">© 2025 Emil AI. All rights reserved.</p>
-                  <p className="text-gray-500 text-sm">
-                    contact@emilai.com • 
-                    <span className="text-yellow-400 font-semibold"> Powered by Strive Go Team</span>
-                  </p>
-                </div>
-                
-                {/* Trust Badges */}
-                <div className="flex items-center space-x-6">
-                  <div className="flex items-center space-x-2 text-sm text-gray-400">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <span>99.9% Uptime</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-400">
-                    <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                    <span>GDPR Compliant</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-400">
-                    <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-                    <span>ISO 27001</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Footer moved to global Layout */}
     </div>
   );
 }
