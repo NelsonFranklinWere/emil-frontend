@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark, faPaperPlane, faShieldHalved } from '@fortawesome/free-solid-svg-icons'
 import { faLinkedin, faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons'
+import WhatsAppButton from './WhatsAppButton'
 
 export default function Layout({ children }) {
   const [scrolled, setScrolled] = useState(false)
@@ -40,6 +41,7 @@ export default function Layout({ children }) {
               <Link href="/contact" className="text-white/80 hover:text-white">Contact</Link>
               <Link href="/dashboard" className="btn-secondary">Dashboard</Link>
               <Link href="/create-job" className="btn-primary">Create Job</Link>
+              <Link href="/admin" className="btn-secondary">Admin</Link>
             </nav>
             <button aria-label="Menu" className="md:hidden w-10 h-10 grid place-items-center rounded-lg bg-white/10 border border-white/10">
               <FontAwesomeIcon icon={faBars} />
@@ -109,18 +111,42 @@ export default function Layout({ children }) {
               </ul>
             </div>
 
-            {/* Newsletter */}
+            {/* Contact Info */}
             <div className="lg:col-span-2">
-              <h4 className="text-white/90 font-semibold mb-4">Stay in the loop</h4>
-              <p className="text-white/60 text-sm mb-4">Get product updates and best practices in your inbox.</p>
-              <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-                <input aria-label="Email" type="email" placeholder="you@company.com" className="form-input bg-white/5 border-white/10 text-white placeholder-white/40" />
-                <button className="btn-primary">
-                  <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
-                  Subscribe
-                </button>
-              </form>
-              <p className="text-white/40 text-xs mt-2">We care about your data in our <a href="#" className="underline hover:text-white">privacy policy</a>.</p>
+              <h4 className="text-white/90 font-semibold mb-4">Contact Us</h4>
+              <div className="space-y-3 text-sm text-white/60">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs">📞</span>
+                  </div>
+                  <a href="tel:+254743869564" className="hover:text-white">+254 743 869 564</a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs">✉️</span>
+                  </div>
+                  <a href="mailto:strivego4@gmail.com" className="hover:text-white">strivego4@gmail.com</a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-purple-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-xs">📍</span>
+                  </div>
+                  <span>Nairobi, Kenya - Mombasa Road</span>
+                </div>
+              </div>
+              
+              <div className="mt-6">
+                <h5 className="text-white/90 font-medium mb-3">Stay in the loop</h5>
+                <p className="text-white/60 text-sm mb-4">Get product updates and best practices in your inbox.</p>
+                <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
+                  <input aria-label="Email" type="email" placeholder="you@company.com" className="form-input bg-white/5 border-white/10 text-white placeholder-white/40" />
+                  <button className="btn-primary">
+                    <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
+                    Subscribe
+                  </button>
+                </form>
+                <p className="text-white/40 text-xs mt-2">We care about your data in our <a href="#" className="underline hover:text-white">privacy policy</a>.</p>
+              </div>
             </div>
           </div>
 
@@ -134,6 +160,9 @@ export default function Layout({ children }) {
           </div>
         </div>
       </footer>
+      
+      {/* WhatsApp Button */}
+      <WhatsAppButton />
     </div>
   )
 }

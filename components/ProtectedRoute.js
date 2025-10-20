@@ -22,6 +22,12 @@ export default function ProtectedRoute({
 
     if (requireAuth && allowedRoles.length > 0 && user) {
       if (!allowedRoles.includes(user.role)) {
+        // If user is trying to access admin routes but not admin, redirect to dashboard
+        if (router.pathname.startsWith('/admin')) {
+          router.push('/dashboard')
+          return
+        }
+        // For other role restrictions, redirect to dashboard
         router.push('/dashboard')
         return
       }
